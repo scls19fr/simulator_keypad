@@ -20,6 +20,8 @@ uint16_t values_keypad_5b[USED_BUTTONS_KEYPAD_5B] = {0, 145, 330, 506, 742};
 #define SW5_JOYBUT 16  // Button 17
 #define MAX_JOYSTICK_BUTTONS 17
 
+#define HAT_SWITCH_ANGLE_OFFSET 180
+
 Joystick_ Joystick(0x03, //hid report id
   JOYSTICK_TYPE_GAMEPAD, //joystick type
   MAX_JOYSTICK_BUTTONS, //button count
@@ -69,6 +71,7 @@ bool nearFrom(uint16_t val, uint16_t refVal, uint16_t tolerance) {
 
 
 void loop() {
+
   analogValue_keypad_5b = analogRead(PIN_ANALOG_KEYPAD_5BUT);
   if (!(nearFrom(analogValue_keypad_5b, NO_PRESS_VALUE_KEYPAD_5B, TOLERANCE_KEYPAD_5B))) {
     // Serial.print("analogValue="); Serial.println(analogValue);
@@ -88,25 +91,25 @@ void loop() {
         // Serial.println("BUT");
         Joystick.setButton(SW5_JOYBUT, true);
         //Keyboard.press('p');
-        //delay(200);
+        delay(500);
         //Keyboard.releaseAll();     
     } else {
       switch (button_k5) {
         case 1:
           //Serial.println("UP");
-          Joystick.setHatSwitch(0, 0);
+          Joystick.setHatSwitch(0, 0 + HAT_SWITCH_ANGLE_OFFSET);
           break;
         case 2:
           // Serial.println("DOWN");
-          Joystick.setHatSwitch(0, 180);
+          Joystick.setHatSwitch(0, 180 + HAT_SWITCH_ANGLE_OFFSET);
           break;
         case 0:
           // Serial.println("LEFT");
-          Joystick.setHatSwitch(0, 270);
+          Joystick.setHatSwitch(0, 270 + HAT_SWITCH_ANGLE_OFFSET);
           break;
         case 3:
           // Serial.println("RIGHT");
-          Joystick.setHatSwitch(0, 90);
+          Joystick.setHatSwitch(0, 90 + HAT_SWITCH_ANGLE_OFFSET);
           break;
         default:
           break;
